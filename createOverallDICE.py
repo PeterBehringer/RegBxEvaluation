@@ -55,3 +55,38 @@ os.system(cmd)
 f = open('/Users/peterbehringer/MyStudies/Verification/OverallSummary_DICE.txt', 'w')
 f.write('Overall Summary created, showing [avg_dice_before,avg_dice_after')
 f.write("\n"+str(avg_dice_before)+', '+str(avg_dice_after))
+
+diceCoeffBefore=[]
+for i in range(0,len(summaryBefore)):
+  print summaryBefore[i][1]
+  diceCoeffBefore.append(summaryBefore[i][1])
+
+print 'diceCoeffBefore'
+print diceCoeffBefore
+
+diceCoeffAfter=[]
+for i in range(0,len(summaryAfter)):
+  print summaryAfter[i][1]
+  diceCoeffAfter.append(summaryAfter[i][1])
+
+print 'diceCoeffAfter'
+print diceCoeffAfter
+
+# create the plot
+from pylab import *
+
+fig=plt.figure()
+rect=fig.patch
+rect.set_facecolor('white')
+ax1= fig.add_subplot(1,1,1)
+x=[0,1,2]
+y=[0,1,2]
+
+plt.plot(diceCoeffBefore,diceCoeffAfter,'ko',x,y,'b--')
+
+# plt.title('DICE Coefficients')
+ax1.set_xlabel('DICE before registration',labelpad=20)
+ax1.set_ylabel('DICE after registration',labelpad=20)
+plt.axis([0,1,0,1])
+
+plt.show()
