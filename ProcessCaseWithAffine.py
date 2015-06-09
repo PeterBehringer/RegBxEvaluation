@@ -164,7 +164,7 @@ for nid in needleImageIds:
     # affine
     BFRegister(fixed=fixedImage,moving=movingImage,fixedMask=fixedMask,affineTfm=affineTfm,initTfm=rigidTfm,log=log)
     # bspline
-    BFRegister(fixed=fixedImage,moving=movingImage,fixedMask=fixedMask,bsplineTfm=bsplineTfm,log=log,initialTfm=rigidTfm)
+    BFRegister(fixed=fixedImage,moving=movingImage,fixedMask=fixedMask,bsplineTfm=bsplineTfm,log=log,initialTfm=affineTfm)
     print 'latest BSpline transform path in not else case: '+str(bsplineTfm)
 
     endTime = time()
