@@ -50,15 +50,10 @@ TempDir='/Users/peterbehringer/MyStudies/TempDir'
 
 for case in range(lowercaseNumber,upperCaseNumber,1):
 
-    if case == 14:
-        continue
-
-
     # 1. ProcessCase.py
-    cmd = ('python ProcessCase.py '+str(case))
+    cmd = ('python ProcessCaseWithAffine.py '+str(case))
     print ('about to run : '+cmd)
     os.system(cmd)
-
 
     # 2. ResampleCase.py
     cmd = ('python ResampleCase.py '+str(case))
