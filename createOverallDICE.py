@@ -12,8 +12,6 @@ summaryAfter=[]
 
 
 for case in range(lowerCaseNumber,upperCaseNumber):
-    if case==14:
-        continue
     # dice before
     pathToFile=('/Users/peterbehringer/MyStudies/TempDir/Case'+str(case)+'_dice_before.log')
     f=open(pathToFile,'r')
@@ -82,11 +80,13 @@ ax1= fig.add_subplot(1,1,1)
 x=[0,1,2]
 y=[0,1,2]
 
-plt.plot(diceCoeffBefore,diceCoeffAfter,'ko',x,y,'b--')
+# plt.plot(diceCoeffBefore,diceCoeffAfter,'ko',x,y,'b--')
+plt.plot(diceCoeffBefore, diceCoeffAfter,'ko',mfc='none',color="blue")
+plt.plot(x,y,'k--')
 
 # plt.title('DICE Coefficients')
-ax1.set_xlabel('DICE before registration',labelpad=20)
-ax1.set_ylabel('DICE after registration',labelpad=20)
+ax1.set_xlabel('DICE before registration',labelpad=15)
+ax1.set_ylabel('DICE after registration',labelpad=15)
 plt.axis([0,1,0,1])
 
 plt.show()

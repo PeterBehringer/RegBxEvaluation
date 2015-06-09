@@ -4,7 +4,7 @@ import os, sys, string, glob, re, numpy
 allTimes = []
 allTimesArr = numpy.array([])
 
-for c in range(11,12):
+for c in range(11,36):
   regTimeLog = open('/Users/peterbehringer/MyStudies/Data/Case'+str(c)+'/Slicer4registration/'+str(c)+'_registration_times.log','r')
   log = regTimeLog.readline()
   items = string.split(log, ';')
@@ -26,7 +26,10 @@ print 'Max: ',numpy.max(allTimesArr)
 print 'Min: ',numpy.min(allTimesArr)
 print 'STD: ',numpy.std(allTimesArr)
 
-fig=figure()
+
+fig=plt.figure()
+rect=fig.patch
+rect.set_facecolor('white')
 ax1=fig.add_subplot(111)
 bp=boxplot(allTimes)
 setp(range(11,12))
