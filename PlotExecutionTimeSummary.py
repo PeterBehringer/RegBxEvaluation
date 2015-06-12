@@ -3,11 +3,12 @@ import os, sys, string, glob, re, numpy
 
 allTimesSlicer4 = []
 allTimesSlicer3 = []
-allTimesArr = numpy.array([])
+allTimesArrSlicer3 = numpy.array([])
+allTimesArrSlicer4 = numpy.array([])
 
 caseTimes=[]
 
-for c in range(11,35):
+for c in range(11,36):
   regTimeLog = open('/Users/peterbehringer/MyStudies/Data/Case'+str(c)+'/Slicer4registration/'+str(c)+'_registration_times.log','r')
   log = regTimeLog.readline()
   items = string.split(log, ';')
@@ -22,14 +23,15 @@ for c in range(11,35):
 
   print 'TIMES SLICER4'
   print timesSlicer4
-  print 'LAENGE TIMES SLICER4'
+  print 'LEN TIMES SLICER4'
   print str(len(timesSlicer4))
   allTimesSlicer4.append(timesSlicer4)
-  allTimesArr = numpy.append(allTimesArr, timesSlicer4)
+  allTimesArrSlicer4 = numpy.append(allTimesArrSlicer4, timesSlicer4)
 
 
-for c in range(11,35):
+for c in range(11,36):
   regTimeLog = open('/Users/peterbehringer/MyStudies/Data/Case'+str(c)+'/Slicer3registration/'+str(c)+'_registration_times.log','r')
+  #regTimeLog = open('/Users/peterbehringer/MyStudies/Data/Case'+str(c)+'/Slicer4registration/CH-TG/'+str(c)+'_registration_times.log','r')
   log = regTimeLog.readline()
   items = string.split(log, ';')
   print items
@@ -43,16 +45,24 @@ for c in range(11,35):
 
   print 'TIMES SLICER3'
   print timesSlicer3
-  print 'LAENGE TIMES SLICER3'
+  print 'LEN TIMES SLICER3'
   print str(len(timesSlicer3))
   allTimesSlicer3.append(timesSlicer3)
-  allTimesArr = numpy.append(allTimesArr, timesSlicer3)
+  allTimesArrSlicer3 = numpy.append(allTimesArrSlicer3, timesSlicer3)
 
-print 'Total number of registrations: ',len(allTimesArr)
-print 'Mean: ',numpy.mean(allTimesArr)
-print 'Max: ',numpy.max(allTimesArr)
-print 'Min: ',numpy.min(allTimesArr)
-print 'STD: ',numpy.std(allTimesArr)
+print 'SLICER 4: '
+print 'Total number of registrations: ',len(allTimesArrSlicer4)
+print 'Mean: ',numpy.mean(allTimesArrSlicer4)
+print 'Max: ',numpy.max(allTimesArrSlicer4)
+print 'Min: ',numpy.min(allTimesArrSlicer4)
+print 'STD: ',numpy.std(allTimesArrSlicer4)
+
+print 'SLICER 3: '
+print 'Total number of registrations: ',len(allTimesArrSlicer3)
+print 'Mean: ',numpy.mean(allTimesArrSlicer3)
+print 'Max: ',numpy.max(allTimesArrSlicer3)
+print 'Min: ',numpy.min(allTimesArrSlicer3)
+print 'STD: ',numpy.std(allTimesArrSlicer3)
 
 averagesSlicer4=[]
 avg=0
@@ -100,22 +110,29 @@ plt.plot(averagesSlicer3, averagesSlicer4,'ko',mfc='none',color="blue")
 plt.plot(x,y,'k--')
 
 # plt.title('DICE Coefficients')
-plt.xlabel('timesSlicer3',labelpad=15)
-plt.ylabel('timesSlicer4',labelpad=15)
+plt.xlabel('computation time ITK3',labelpad=15)
+plt.ylabel('computation time ITK4',labelpad=15)
 #plt.axis([0,1,0,1])
 
 plt.show()
 
-"""
+print '*********'
+print allTimesSlicer4
+
 
 fig=plt.figure()
 rect=fig.patch
 rect.set_facecolor('white')
 ax1=fig.add_subplot(111)
-bp=boxplot(allTimes)
-setp(range(11,12))
+bp=boxplot(allTimesSlicer4)
+
 xlabel('case ID')
 ylabel('registration time, sec')
 show()
-"""
+
+
+
+
+show()
+
 

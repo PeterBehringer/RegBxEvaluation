@@ -1,7 +1,7 @@
 import os
 
 lowercaseNumber=11
-upperCaseNumber=50
+upperCaseNumber=35
 
 
 for case in range(lowercaseNumber,upperCaseNumber+1):

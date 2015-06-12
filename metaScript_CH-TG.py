@@ -28,12 +28,13 @@ import os
 # PARAMETER YOU NEED TO SET:
 
 lowercaseNumber = 11
-upperCaseNumber = 36
+upperCaseNumber = 35
 
 
 # ________________________________________________________________________________________________________________ #
 
 for case in range(lowercaseNumber,upperCaseNumber+1,1):
+
     # 1. ProcessCase.py
     cmd = ('python ProcessCaseWithAffine_CH-TG.py '+str(case))
     print ('about to run : '+cmd)
@@ -60,7 +61,7 @@ cmd = ('python createOverallFiducialSummary.py '+str(lowercaseNumber)+' '+str(up
 print ('about to run : '+cmd)
 os.system(cmd)
 
-cmd = ('python createOverallDICE.py '+str(lowercaseNumber)+' '+str(upperCaseNumber))
+cmd = ('python createOverallDICE_CH-TG.py '+str(lowercaseNumber)+' '+str(upperCaseNumber))
 print ('about to run : '+cmd)
 os.system(cmd)
 
