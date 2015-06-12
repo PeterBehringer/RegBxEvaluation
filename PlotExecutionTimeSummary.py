@@ -57,8 +57,6 @@ print 'STD: ',numpy.std(allTimesArr)
 averagesSlicer4=[]
 avg=0
 
-print 'meine freundin ist suess'
-
 for i in range(len(allTimesSlicer4)):
   #print 'listentry['+str(i)+'] : '+str(allTimesSlicer4[i])
   for time in range(len(allTimesSlicer4[i])):
@@ -79,8 +77,6 @@ for i in range(len(allTimesSlicer3)):
   # print 'avg for listentry '+str(i)+' = '+str(avg)
   averagesSlicer3.append(avg)
 
-
-print 'meine freundin ist immer noch suess'
 
 print 'averages Slicer 4'
 print averagesSlicer4
