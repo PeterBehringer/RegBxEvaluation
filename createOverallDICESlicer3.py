@@ -13,7 +13,7 @@ summaryAfter=[]
 
 for case in range(lowerCaseNumber,upperCaseNumber):
     # dice before
-    pathToFile=('/Users/peterbehringer/MyStudies/TempDir/Case'+str(case)+'_dice_before.log')
+    pathToFile=('/Users/peterbehringer/MyStudies/TempDir/Case'+str(case)+'_dice_before_Slicer3.log')
     f=open(pathToFile,'r')
     for line in f:
       last=line
@@ -21,7 +21,7 @@ for case in range(lowerCaseNumber,upperCaseNumber):
     summaryBefore.append(splitted)
 
     # dice after
-    pathToFile=('/Users/peterbehringer/MyStudies/TempDir/Case'+str(case)+'_dice_after.log')
+    pathToFile=('/Users/peterbehringer/MyStudies/TempDir/Case'+str(case)+'_dice_after_Slicer3.log')
     f=open(pathToFile,'r')
     for line in f:
       last=line
@@ -69,10 +69,10 @@ print 'max_dice_before : '+str(max_dice_before)
 print 'min_dice_after : '+str(min_dice_after)
 print 'max_dice_after : '+str(max_dice_after)
 
-cmd=('touch /Users/peterbehringer/MyStudies/Verification/OverallSummary_DICE.txt')
+cmd=('touch /Users/peterbehringer/MyStudies/Verification/OverallSummary_DICE_Slicer3.txt')
 print ('about to run '+cmd)
 os.system(cmd)
-f = open('/Users/peterbehringer/MyStudies/Verification/OverallSummary_DICE.txt', 'w')
+f = open('/Users/peterbehringer/MyStudies/Verification/OverallSummary_DICE_Slicer3.txt', 'w')
 f.write('Overall Summary created, showing [avg_dice_before,avg_dice_after,min_dice_before,max_dice_before,min_dice_after,max_dice_after')
 f.write("\n"+str(avg_dice_before)+', '+str(avg_dice_after)+', '+str(min_dice_before)+', '+str(max_dice_before)+', '+str(min_dice_after)+', '+str(max_dice_after))
 

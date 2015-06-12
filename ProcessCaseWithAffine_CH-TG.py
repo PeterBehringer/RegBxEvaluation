@@ -79,14 +79,18 @@ case = args.case
 needleReq = args.needle
 
 IntraDir = '/Users/peterbehringer/MyStudies/Data/Case'+case+'/IntraopImages'
-RegDir='/Users/peterbehringer/MyStudies/Data/Case'+case+'/Registration2attempts'
-RegDir='/Users/peterbehringer/MyStudies/Data/Case'+case+'/Slicer4registration'
-TempDir='/Users/peterbehringer/MyStudies/TempDir'
+RegDir='/Users/peterbehringer/MyStudies/Data/Case'+case+'/Slicer4registration/CH-TG'
+TempDir='/Users/peterbehringer/MyStudies/TempDir/CH-TG'
+BeginnerSegDir='/Users/peterbehringer/MyStudies/Beginner_Segmentations/Case'+case+'/'
 try:
   os.mkdir(RegDir)
 except:
   pass
 
+try:
+  os.mkdir(TempDir)
+except:
+  pass
 
 # 1. run preop/intraop registration
 
@@ -111,7 +115,7 @@ print needleImageIds
 
 # moving image/mask will always be the same
 movingImage = IntraDir+'/CoverProstate.nrrd'
-movingMask = IntraDir+'/CoverProstate-TG.nrrd'
+movingMask = BeginnerSegDir+'/CoverProstate-label.nrrd'
 
 latestRigidTfm = '/Users/peterbehringer/MyStudies/InitialTransforms/Identity.h5'
 latestMovingMask = movingMask

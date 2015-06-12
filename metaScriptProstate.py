@@ -7,7 +7,6 @@
 # - binary: BRAINSConstellationLandmarksTransform for transforming the fiducials
 #
 #
-#
 # FOR ALL PROSTATE CASES do
 # 1. ProcessCase.py
 # 2. ResampleCase.py
@@ -47,9 +46,7 @@ TempDir='/Users/peterbehringer/MyStudies/TempDir'
 
 # ________________________________________________________________________________________________________________ #
 
-
 for case in range(lowercaseNumber,upperCaseNumber,1):
-
     # 1. ProcessCase.py
     cmd = ('python ProcessCaseWithAffine.py '+str(case))
     print ('about to run : '+cmd)
@@ -92,5 +89,9 @@ print ('about to run : '+cmd)
 os.system(cmd)
 
 cmd = ('python createOverallDICE.py '+str(lowercaseNumber)+' '+str(upperCaseNumber))
+print ('about to run : '+cmd)
+os.system(cmd)
+
+cmd = ('python PlotExecutionTimeSummary.py '+str(lowercaseNumber)+' '+str(upperCaseNumber))
 print ('about to run : '+cmd)
 os.system(cmd)

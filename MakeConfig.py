@@ -37,6 +37,11 @@ needleImageIds.sort()
 cf = conf.SafeConfigParser()
 cf.optionxform = str
 cfFileName = '/Users/peterbehringer/MyStudies/Verification/Case'+case+'_VisAIRe.ini'
+try:
+  cmd = ('touch '+str(cfFileName))
+  os.system(cmd)
+except:
+  pass
 
 cfFile = open(cfFileName,'w')
 
