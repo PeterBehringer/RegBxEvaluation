@@ -128,9 +128,9 @@ bp=boxplot(allTimesSlicer4)
 
 xlabel('case ID')
 ylabel('registration time, sec')
-show()
 
-
+locs, labels = plt.xticks()
+plt.xticks(locs, numpy.arange(11, 36))
 
 
 show()
