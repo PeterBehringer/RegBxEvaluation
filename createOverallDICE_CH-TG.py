@@ -107,8 +107,8 @@ plt.plot(diceCoeffBefore, diceCoeffAfter,'ko',mfc='none',color="blue")
 plt.plot(x,y,'k--')
 
 # plt.title('DICE Coefficients')
-ax1.set_xlabel('DCE before registration',labelpad=15)
-ax1.set_ylabel('DCE after registration',labelpad=15)
+ax1.set_xlabel('DSC before registration',labelpad=15)
+ax1.set_ylabel('DSC after registration',labelpad=15)
 plt.axis([0,1,0,1])
 
 plt.show()

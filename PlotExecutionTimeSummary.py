@@ -110,8 +110,8 @@ plt.plot(averagesSlicer3, averagesSlicer4,'ko',mfc='none',color="blue")
 plt.plot(x,y,'k--')
 
 # plt.title('DICE Coefficients')
-plt.xlabel('computation time ITK3',labelpad=15)
-plt.ylabel('computation time ITK4',labelpad=15)
+plt.xlabel('computation time ITK3, sec',labelpad=15)
+plt.ylabel('computation time ITK4, sec',labelpad=15)
 #plt.axis([0,1,0,1])
 
 plt.show()
@@ -124,13 +124,14 @@ fig=plt.figure()
 rect=fig.patch
 rect.set_facecolor('white')
 ax1=fig.add_subplot(111)
-bp=boxplot(allTimesSlicer4)
 
-xlabel('case ID')
-ylabel('registration time, sec')
+bp=boxplot(allTimesSlicer4, positions=np.arange(11, 36))
 
-locs, labels = plt.xticks()
-plt.xticks(locs, numpy.arange(11, 36))
+xlabel('case ID',labelpad=15)
+ylabel('registration time, sec',labelpad=15)
+
+#locs, labels = plt.xticks()
+#plt.xticks(locs, numpy.arange(11, 36))
 
 
 show()
