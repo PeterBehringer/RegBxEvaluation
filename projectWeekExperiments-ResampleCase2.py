@@ -27,18 +27,18 @@ args = parser.parse_args()
 case = args.case
 
 IntraDir = '/Users/peterbehringer/MyStudies/Data/Case'+case+'/IntraopImages'
-RegDir='/Users/peterbehringer/MyStudies/Data/Case'+case+'/Slicer4registration'
-ResDir='/Users/peterbehringer/MyStudies/Verification/Case'+case
-TempDir='/Users/peterbehringer/MyStudies/TempDir'
+ResDir='/Users/peterbehringer/MyTesting/ProjectWeek15/Verification/Case'+case
+TempDir='/Users/peterbehringer/MyTesting/ProjectWeek15/Data/Case'+case+'TempDir'
+RegDir='/Users/peterbehringer/MyTesting/ProjectWeek15/Data/Case'+case+'/Slicer4registration'
+
 try:
-  cmd = ('mkdir -p '+str(ResDir))
-  print 'about to run '+cmd
-  os.system(cmd)
+  os.mkdir(ResDir)
 except:
   pass
 
 
 #   list all needle image ids first
+"""
 needleImageIds = []
 needleImages = glob.glob(IntraDir+'/[0-9]*nrrd')
 for ni in needleImages:
@@ -48,18 +48,20 @@ for ni in needleImages:
   if re.match('\d+\.nrrd',fname):
     needleImageIds.append(int(string.split(fname,'.')[0]))
 needleImageIds.sort()
+"""
+needleImageIds=[11]
 
 print str(needleImageIds)
 
 # moving image/mask will always be the same
-movingImage = IntraDir+'/CoverProstate.nrrd'
+movingImage = '/Users/peterbehringer/MyImageData/ProstateRegistrationValidation/Images/Case9-t2ax-N4.nrrd'
 
 for nid in needleImageIds:
   bsplineTfm=None
 
   nidStr=str(nid)
 
-  fixedImage = IntraDir+'/'+nidStr+'.nrrd'
+  fixedImage = '/Users/peterbehringer/MyImageData/ProstateRegistrationValidation/Images/Case9-t2ax-intraop.nrrd'
 
   # check if there is a matching TG
   bsplineTfm = RegDir+'/'+nidStr+'-IntraIntra-BSpline-Attempt1.h5'
@@ -70,10 +72,10 @@ for nid in needleImageIds:
     print 'Failed to find ANY transform!'
     exit()
 
-  resampled = ResDir+'/'+nidStr+'-BSpline_resampled.nrrd'
- 
+  resampled = ResDir+'/Case9-BSpline_resampled_Regular_StepSize.nrrd'
+
   if not IsBSplineTfmValid(bsplineTfm):
     print 'BSpline transform is not valid! Will skip needle image ',nid
     continue
 
-  BFResample(reference=fixedImage,moving=movingImage,tfm=bsplineTfm,output=resampled)  
+  BFResample(reference=fixedImage,moving=movingImage,tfm=bsplineTfm,output=resampled)

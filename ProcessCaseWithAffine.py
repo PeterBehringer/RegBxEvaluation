@@ -16,26 +16,25 @@ def BFRegister(fixed=None,moving=None,fixedMask=None,movingMask=None,rigidTfm=No
   if initTfm:
     CMD = CMD+' --initialTransform '+initTfm
   if bsplineTfm:
-    print ('now went into second if case')
-    CMD = CMD+" --useROIBSpline --useBSpline --splineGridSize 3,3,3 --outputTransform "+bsplineTfm+" --useScaleVersor3D --useScaleSkewVersor3D --numberOfIterations 1500 --outputVolumePixelType float --backgroundFillValue 0 --interpolationMode Linear --minimumStepLength 0.005 --translationScale 1000 --reproportionScale 1 --skewScale 1 --fixedVolumeTimeIndex 0 --movingVolumeTimeIndex 0 --medianFilterSize 0,0,0 --ROIAutoDilateSize 0 --relaxationFactor 0.5 --maximumStepLength 0.2 --failureExitCode -1 --costFunctionConvergenceFactor 1.00E+09 --projectedGradientTolerance 1.00E-05 --maxBSplineDisplacement 0 --maximumNumberOfEvaluations 900 --maximumNumberOfCorrections 25  --removeIntensityOutliers 0 --ROIAutoClosingSize 9"
+    CMD = CMD+" --useROIBSpline --useBSpline --splineGridSize 3,3,3 --outputTransform "+bsplineTfm+" --useScaleVersor3D --useScaleSkewVersor3D --numberOfIterations 1500 --outputVolumePixelType float --backgroundFillValue 0 --interpolationMode Linear --minimumStepLength 0.005 --translationScale 5000 --reproportionScale 1 --skewScale 1 --fixedVolumeTimeIndex 0 --movingVolumeTimeIndex 0 --medianFilterSize 0,0,0 --ROIAutoDilateSize 0 --relaxationFactor 0.5 --maximumStepLength 0.2 --failureExitCode -1 --costFunctionConvergenceFactor 1.00E+09 --projectedGradientTolerance 1.0E-05 --maxBSplineDisplacement 0 --maximumNumberOfEvaluations 900 --maximumNumberOfCorrections 25  --removeIntensityOutliers 0 --ROIAutoClosingSize 9"
   if rigidTfm:
-    CMD = CMD+" --useRigid"
+    CMD = CMD+" --useRigid --minimumStepLength 0.005"
   if rigidTfm and not bsplineTfm:
     CMD = CMD+" --outputTransform "+rigidTfm
   if affineTfm:
     CMD = CMD+" --useAffine --outputTransform "+affineTfm
-  if fixedMask and movingMask and bsplineTfm:
+  if fixedMask and movingMask and bsplineTfm and not initTfm:
     # B SPLINE TRANSFORM WITH MASKS
     CMD = CMD+' --initializeTransformMode useCenterOfROIAlign'
     # additional params here
     print ('went into additional params for bspline')
     CMD = CMD +' --samplingPercentage 0.002 --maskInferiorCutOffFromCenter 1000 --numberOfHistogramBins 50 --numberOfMatchPoints 10 --metricSamplingStrategy Random --costMetric MMI'
-  if fixedMask and movingMask and rigidTfm and not bsplineTfm:
+  if fixedMask and movingMask and rigidTfm and not bsplineTfm and not initTfm:
     # RIGID TRANSFORM WITH MASKS
     CMD = CMD+' --initializeTransformMode useCenterOfROIAlign'
     # additional params here
-    print ('went into additional params for rigid')
-  if fixedMask and movingMask and affineTfm and not bsplineTfm:
+    print ('went into additional params for rigid1111')
+  if fixedMask and movingMask and affineTfm and not bsplineTfm and not initTfm:
     # AFFINE TRANSFORM WITH MASKS
     CMD = CMD+' --initializeTransformMode useCenterOfROIAlign'
     # additional params here
@@ -59,6 +58,19 @@ def BFResample(reference,moving,tfm,output,interp='Linear'):
   if ret:
     exit()
 
+def dilateMask(inputPATH,outputPATH):
+
+  import SimpleITK as sitk
+
+  image_input=sitk.ReadImage(inputPATH)
+
+  grayscale_dilate_filter = sitk.GrayscaleDilateImageFilter()
+  grayscale_dilate_filter.SetKernelRadius([11,11,0])
+  grayscale_dilate_filter.SetKernelType(sitk.sitkBall)
+
+  image_output = grayscale_dilate_filter.Execute(image_input)
+  sitk.WriteImage(image_output,outputPATH)
+
 def IsBSplineTfmValid(tfm):
 
   import h5py
@@ -79,11 +91,15 @@ case = args.case
 needleReq = args.needle
 
 IntraDir = '/Users/peterbehringer/MyStudies/Data/Case'+case+'/IntraopImages'
-RegDir='/Users/peterbehringer/MyStudies/Data/Case'+case+'/Registration2attempts'
 RegDir='/Users/peterbehringer/MyStudies/Data/Case'+case+'/Slicer4registration'
 TempDir='/Users/peterbehringer/MyStudies/TempDir'
 try:
   os.mkdir(RegDir)
+except:
+  pass
+
+try:
+  os.mkdir(TempDir)
 except:
   pass
 
@@ -113,6 +129,7 @@ print needleImageIds
 movingImage = IntraDir+'/CoverProstate.nrrd'
 movingMask = IntraDir+'/CoverProstate-TG.nrrd'
 
+identityTfm='/Users/peterbehringer/MyStudies/InitialTransforms/Identity.h5'
 latestRigidTfm = '/Users/peterbehringer/MyStudies/InitialTransforms/Identity.h5'
 latestMovingMask = movingMask
 
@@ -140,6 +157,8 @@ for nid in needleImageIds:
     rigidTfm = RegDir+'/'+nidStr+'-IntraIntra-Rigid-Attempt1.h5'
     affineTfm = RegDir+'/'+nidStr+'-IntraIntra-Affine-Attempt1.h5'
     fixedMask = TempDir+'/'+str(case)+'_'+nidStr+'-Resampled-'+string.split(latestMovingMask,'/')[-1]
+    fixedMask_dilated = TempDir+'/'+str(case)+'_'+nidStr+'-Dilated_Resampled-'+string.split(latestMovingMask,'/')[-1]
+
     print ('DEBUG: FIXED IMAGE')
     print fixedImage
     print ('DEBUG: LATEST MOVING MASK')
@@ -148,15 +167,20 @@ for nid in needleImageIds:
     print latestRigidTfm
     print ('DEBUG: FIXED MASK')
     print fixedMask
+    print ('DEBUG: FIXED MASK DILATED')
+    print fixedMask
+
     BFResample(reference=fixedImage,moving=latestMovingMask,tfm=latestRigidTfm,output=fixedMask,interp='NearestNeighbor')
     # since we have only one mask, we cannot use a smarter initialization procedure
+    dilateMask(fixedMask,fixedMask_dilated)
+
     startTime = time()
     # rigid
     BFRegister(fixed=fixedImage,moving=movingImage,fixedMask=fixedMask,rigidTfm=rigidTfm,log=log,initialTfm=latestRigidTfm)
     # affine
-    BFRegister(fixed=fixedImage,moving=movingImage,fixedMask=fixedMask,affineTfm=affineTfm,initTfm=rigidTfm,log=log)
+    #BFRegister(fixed=fixedImage,moving=movingImage,fixedMask=fixedMask,affineTfm=affineTfm,initTfm=rigidTfm,log=log)
     # bspline
-    BFRegister(fixed=fixedImage,moving=movingImage,fixedMask=fixedMask,bsplineTfm=bsplineTfm,log=log,initialTfm=affineTfm)
+    BFRegister(fixed=fixedImage,moving=movingImage,fixedMask=fixedMask_dilated,bsplineTfm=bsplineTfm,log=log,initialTfm=rigidTfm)
     print 'latest BSpline transform path in not else case: '+str(bsplineTfm)
 
     endTime = time()
@@ -167,14 +191,19 @@ for nid in needleImageIds:
     rigidTfm = RegDir+'/'+nidStr+'-IntraIntra-Rigid-Attempt2.h5'
     affineTfm = RegDir+'/'+nidStr+'-IntraIntra-Affine-Attempt2.h5'
     initTfm = RegDir+'/'+nidStr+'-IntraIntra-Init-Attempt2.h5'
+    fixedMask_dilated = TempDir+'/'+str(case)+'_'+nidStr+'-Dilated_Resampled-'+string.split(latestMovingMask,'/')[-1]
+    fixedMask_dilated_resampled = TempDir+'/'+str(case)+'_'+nidStr+'-Dilated_RS_Resampled-'+string.split(latestMovingMask,'/')[-1]
+    dilateMask(fixedMask,fixedMask_dilated)
+    #BFResample(fixedImage,fixedMask_dilated,identityTfm,fixedMask_dilated_resampled,interp='NearestNeighbor')
+
     startTime = time()
     # rigid
     BFRegister(fixed=fixedImage,moving=movingImage,movingMask=movingMask,fixedMask=fixedMask,rigidTfm=rigidTfm,log=log)
     # affine
-    BFRegister(fixed=fixedImage,moving=movingImage,movingMask=movingMask,fixedMask=fixedMask,affineTfm=affineTfm,log=log)
+    #BFRegister(fixed=fixedImage,moving=movingImage,movingMask=movingMask,fixedMask=fixedMask,affineTfm=affineTfm,log=log)
     # bspline
     print 'latest BSpline transform path in else case BEFORE RUNNING the BSPLINE: '+str(bsplineTfm)
-    BFRegister(fixed=fixedImage,moving=movingImage,movingMask=movingMask,fixedMask=fixedMask,bsplineTfm=bsplineTfm,log=log)
+    BFRegister(fixed=fixedImage,moving=movingImage,movingMask=movingMask,fixedMask=fixedMask_dilated,bsplineTfm=bsplineTfm,initialTfm=rigidTfm,log=log)
     # BFRegister(fixed=fixedImage,moving=movingImage,movingMask=movingMask,fixedMask=fixedMask,rigidTfm=rigidTfm,bsplineTfm=bsplineTfm,log=log,initTfm=initTfm)
     print 'latest BSpline transform path in else case: '+str(bsplineTfm)
 

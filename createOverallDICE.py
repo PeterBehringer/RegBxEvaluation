@@ -13,7 +13,8 @@ summaryAfter=[]
 
 for case in range(lowerCaseNumber,upperCaseNumber):
     # dice before
-    pathToFile=('/Users/peterbehringer/MyStudies/TempDir/CH-TG/Case'+str(case)+'_dice_after.log')
+    pathToFile=('/Users/peterbehringer/MyStudies/TempDir/Case'+str(case)+'_dice_before.log')
+    #pathToFile=('/Users/peterbehringer/MyStudies/TempDir/CH-TG/Case'+str(case)+'_dice_after.log')
     f=open(pathToFile,'r')
     for line in f:
       last=line
@@ -69,10 +70,10 @@ print 'max_dice_before : '+str(max_dice_before)
 print 'min_dice_after : '+str(min_dice_after)
 print 'max_dice_after : '+str(max_dice_after)
 
-cmd=('touch /Users/peterbehringer/MyStudies/Verification/OverallSummary_DICE_CH_against_AF.txt')
+cmd=('touch /Users/peterbehringer/MyStudies/Verification/OverallSummary_DICE_Rater1.txt')
 print ('about to run '+cmd)
 os.system(cmd)
-f = open('/Users/peterbehringer/MyStudies/Verification/OverallSummary_DICE_CH_against_AF.txt', 'w')
+f = open('/Users/peterbehringer/MyStudies/Verification/OverallSummary_DICE_Rater1.txt', 'w')
 f.write('Overall Summary created, showing [avg_dice_before,avg_dice_after,min_dice_before,max_dice_before,min_dice_after,max_dice_after')
 f.write("\n"+str(avg_dice_before)+', '+str(avg_dice_after)+', '+str(min_dice_before)+', '+str(max_dice_before)+', '+str(min_dice_after)+', '+str(max_dice_after))
 
@@ -107,8 +108,8 @@ plt.plot(diceCoeffBefore, diceCoeffAfter,'ko',mfc='none',color="blue")
 plt.plot(x,y,'k--')
 
 # plt.title('DICE Coefficients')
-ax1.set_xlabel('DSC after registration rater 1',labelpad=15)
-ax1.set_ylabel('DSC after registration rater 2',labelpad=15)
-plt.axis([0,1,0,1])
+ax1.set_xlabel('DSC before registration',labelpad=3)
+ax1.set_ylabel('DSC after registration',labelpad=3)
+plt.axis([0.4,1,0.4,1])
 
 plt.show()

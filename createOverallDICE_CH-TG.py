@@ -69,6 +69,11 @@ print 'max_dice_before : '+str(max_dice_before)
 print 'min_dice_after : '+str(min_dice_after)
 print 'max_dice_after : '+str(max_dice_after)
 
+try:
+    os.mkdir('/Users/peterbehringer/MyStudies/Verification/CH-TG/')
+except:
+    pass
+
 cmd=('touch /Users/peterbehringer/MyStudies/Verification/CH-TG/OverallSummary_DICE.txt')
 print ('about to run '+cmd)
 os.system(cmd)

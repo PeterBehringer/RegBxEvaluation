@@ -75,18 +75,19 @@ for case in range(lowercaseNumber,upperCaseNumber,1):
     # 8. transformFiducials.py
     cmd = ('python TransformFiducials.py '+str(case))
     print ('about to run : '+cmd)
-    os.system(cmd)
+    #os.system(cmd)
 
     # 8. MakeFiducialSummaryTable.py
     cmd = ('python MakeFiducialsSummaryTable.py '+str(case))
     print ('about to run : '+cmd)
-    os.system(cmd)
+    #os.system(cmd)
 
     print ('done with case '+str(case))
 
+
 cmd = ('python createOverallFiducialSummary.py '+str(lowercaseNumber)+' '+str(upperCaseNumber))
 print ('about to run : '+cmd)
-os.system(cmd)
+#os.system(cmd)
 
 cmd = ('python createOverallDICE.py '+str(lowercaseNumber)+' '+str(upperCaseNumber))
 print ('about to run : '+cmd)

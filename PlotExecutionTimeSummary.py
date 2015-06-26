@@ -95,8 +95,12 @@ print averagesSlicer4
 print 'averages Slicer 3'
 print averagesSlicer3
 
+print 'allTimesSlicer3'
+print allTimesSlicer3
+
 # create the plot
 from pylab import *
+
 
 fig=plt.figure()
 rect=fig.patch
@@ -110,8 +114,8 @@ plt.plot(averagesSlicer3, averagesSlicer4,'ko',mfc='none',color="blue")
 plt.plot(x,y,'k--')
 
 # plt.title('DICE Coefficients')
-plt.xlabel('computation time ITK3, sec',labelpad=15)
-plt.ylabel('computation time ITK4, sec',labelpad=15)
+plt.xlabel('computation time ITK3, sec',labelpad=4)
+plt.ylabel('computation time ITK4, sec',labelpad=4)
 #plt.axis([0,1,0,1])
 
 plt.show()
@@ -125,10 +129,21 @@ rect=fig.patch
 rect.set_facecolor('white')
 ax1=fig.add_subplot(111)
 
+#minorLocator = MultipleLocator(5)
+majorLocator   = MultipleLocator(5)
+majorFormatter = FormatStrFormatter('%d')
+
 bp=boxplot(allTimesSlicer4, positions=np.arange(11, 36))
 
-xlabel('case ID',labelpad=15)
-ylabel('registration time, sec',labelpad=15)
+ax1.xaxis.set_major_locator(majorLocator)
+ax1.xaxis.set_major_formatter(majorFormatter)
+
+#for the minor ticks, use no labels; default NullFormatter
+#ax1.xaxis.set_minor_locator(minorLocator)
+
+
+xlabel('case ID',labelpad=4)
+ylabel('registration time, sec',labelpad=4)
 
 #locs, labels = plt.xticks()
 #plt.xticks(locs, numpy.arange(11, 36))

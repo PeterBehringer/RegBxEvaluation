@@ -71,6 +71,10 @@ for nid in needleImageIds:
   # TODO: add transformations
   tfmFile1 = RegDir+'/'+nidStr+'-IntraIntra-BSpline-Attempt1.h5'
   tfmFile2 = RegDir+'/'+nidStr+'-IntraIntra-BSpline-Attempt2.h5'
+
+  print tfmFile1
+  print tfmFile2
+
   if os.path.exists(tfmFile1):
     cf.set('RegisteredData','Transform'+nidStr,os.path.abspath(tfmFile1))
   elif os.path.exists(tfmFile2):
